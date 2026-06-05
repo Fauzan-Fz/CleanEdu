@@ -1,58 +1,31 @@
 <?php
 
+use App\Http\Controllers\EduController;
 use Illuminate\Support\Facades\Route;
 
-// 1. Halaman Beranda / Landing Page Utama
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [EduController::class, 'welcome'])->name('welcome');
+Route::get('/artikel', [EduController::class, 'artikel'])->name('artikel');
+Route::get('/artikel/{slug}', [EduController::class, 'detailArtikel'])->name('artikel.detail');
+Route::get('/video', [EduController::class, 'video'])->name('video');
+Route::get('/quiz', [EduController::class, 'quiz'])->name('quiz');
+Route::post('/quiz/submit', [EduController::class, 'checkQuiz'])->name('quiz.submit');
 
-// 2. Halaman Daftar Artikel
-Route::get('/artikel', function () {
-    return view('artikel');
-});
+Route::get('/register', [EduController::class, 'showRegister'])->name('register');
+Route::post('/register', [EduController::class, 'register'])->name('register.submit');
 
-// 3. Halaman Detail Artikel (Isi Bacaan)
-Route::get('/detail-artikel', function () {
-    return view('detail-artikel');
-});
+Route::get('/login', [EduController::class, 'showLogin'])->name('login');
+Route::post('/login', [EduController::class, 'login'])->name('login.submit');
 
-// 4. Halaman Artikel Terkait
-Route::get('/tentang', function () {
-    return view('terkait-artikel');
-});
+Route::get('/settings', [EduController::class, 'settings'])->name('settings');
+Route::post('/settings', [EduController::class, 'updateSettings'])->name('settings.update');
 
-// 5. Halaman Pertanyaan Kuis
-Route::get('/quiz', function () {
-    return view('quiz');
-});
+Route::post('/logout', [EduController::class, 'logout'])->name('logout');
 
-// 6. Halaman Profil & Badge User
-Route::get('/badges', function () {
-    return view('profil');
-});
+Route::get('/dashboard', [EduController::class, 'dashboard'])->name('dashboard');
 
-// Halaman Profil
-Route::get('/profil', function () {
-    return view('profil');
-});
+Route::view('/reports', 'reports')->name('reports');
 
-// 7. Halaman Login
-Route::get('/daftar', function () {
-    return view('login');
-});
+Route::view('/dashboard/users', 'users')->name('users');
 
-// 8. Halaman Dashboard
-Route::get('/dashboard', function () {
-    return view('dashboard');
-});
+Route::view('/dashboard/badges', 'badges')->name('badges');
 
-// 9. Halaman User
-Route::get('/users', function () {
-    return view('users');
-});
-
-// 10. Halaman Video
-Route::get('/video', function () {
-    return view('video');
-});

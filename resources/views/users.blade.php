@@ -691,35 +691,38 @@
 
       <!-- Nav links -->
       <nav class="sidebar-nav">
-        <a href="/dashboard" class="nav-item-link">
+        <a href="{{ route('dashboard') }}" class="nav-item-link">
           <i class="bi bi-house-door"></i> Dashboard
         </a>
-        <a href="/users" class="nav-item-link active">
+        <a href="{{ route('users') }}" class="nav-item-link active">
           <i class="bi bi-people"></i> Users
         </a>
-        <a href="/artikel" class="nav-item-link">
+        <a href="{{ route('artikel') }}" class="nav-item-link">
           <i class="bi bi-newspaper"></i> Article
         </a>
-        <a href="/video" class="nav-item-link">
+        <a href="{{ route('video') }}" class="nav-item-link">
           <i class="bi bi-play-circle"></i> Videos
         </a>
-        <a href="/quiz" class="nav-item-link">
+        <a href="{{ route('quiz') }}" class="nav-item-link">
           <i class="bi bi-patch-question"></i> Quizer
         </a>
-        <a href="/badges" class="nav-item-link">
+        <a href="{{ route('badges') }}" class="nav-item-link">
           <i class="bi bi-award"></i> Badges
         </a>
-        <a href="/reports" class="nav-item-link">
+        <a href="{{ route('reports') }}" class="nav-item-link">
           <i class="bi bi-bar-chart-line"></i> Reports
         </a>
-        <a href="/settings" class="nav-item-link">
+        <a href="{{ route('settings') }}" class="nav-item-link">
           <i class="bi bi-gear"></i> Settings
         </a>
       </nav>
 
       <!-- Logout -->
       <div class="sidebar-footer">
-        <a href="/logout" class="logout-link">
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+          @csrf
+        </form>
+        <a href="#" class="logout-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
           <i class="bi bi-box-arrow-right"></i> Logout
         </a>
       </div>

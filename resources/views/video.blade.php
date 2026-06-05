@@ -653,6 +653,7 @@
       <!-- Center nav (desktop) -->
       <ul class="nav-links d-none d-lg-flex">
         <li><a href="/"        class="nav-link">Beranda</a></li>
+        <li><a href="/dashboard"        class="nav-link">Dashboard</a></li>
         <li><a href="/artikel" class="nav-link">Artikel</a></li>
         <li><a href="/video"   class="nav-link active">Video</a></li>
         <li><a href="/quiz"    class="nav-link">Quiz</a></li>

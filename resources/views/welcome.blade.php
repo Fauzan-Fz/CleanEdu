@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
@@ -310,7 +310,6 @@
       box-shadow: 0 24px 64px rgba(47,144,84,0.22), inset 0 -10px 30px rgba(0,0,0,0.06);
       animation: earthFloat 6s ease-in-out infinite alternate;
       gap: 8px;
-      /* DUA BARIS DI BAWAH INI DIPERBAIKI AGAR TIDAK TERTUTUP BLUR */
       position: relative;
       z-index: 5;
     }
@@ -650,7 +649,7 @@
 
     /* =======================================================
         SECTION KUNING (SIAP JADI BAGIAN DARI PERUBAHAN)
-    ======================================================= */
+    =========================== */
     .cta-section {
       background: linear-gradient(135deg, #FEF5DC 0%, var(--yellow-cta-accent) 100%);
       padding: 70px 0 0;
@@ -821,7 +820,7 @@
 
   <nav class="navbar-custom">
     <div class="container d-flex align-items-center justify-content-between gap-2">
-      <a href="/" class="navbar-brand-wrap text-decoration-none">
+      <a href="{{ route('welcome') }}" class="navbar-brand-wrap text-decoration-none">
         <div class="brand-logo-placeholder">CE</div>
         <div class="brand-text">
           <span class="brand-name">CleanEdu</span>
@@ -829,15 +828,28 @@
         </div>
       </a>
       <ul class="nav nav-center d-none d-lg-flex mb-0">
-        <li class="nav-item"><a class="nav-link active" href="/">Beranda</a></li>
-        <li class="nav-item"><a class="nav-link" href="/artikel">Artikel</a></li>
-        <li class="nav-item"><a class="nav-link" href="/video">Video</a></li>
-        <li class="nav-item"><a class="nav-link" href="/quiz">Quiz</a></li>
-        <li class="nav-item"><a class="nav-link" href="/tentang">Tentang</a></li>
+        <li class="nav-item">
+          <a class="nav-link {{ request()->routeIs('welcome') ? 'active' : '' }}" href="{{ route('welcome') }}">Beranda</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {{ request()->routeIs('artikel*') ? 'active' : '' }}" href="{{ route('artikel') }}">Artikel</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {{ request()->routeIs('video') ? 'active' : '' }}" href="{{ route('video') }}">Video</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {{ request()->routeIs('quiz') ? 'active' : '' }}" href="{{ route('quiz') }}">Quiz</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Tentang</a>
+        </li>
       </ul>
       <div class="d-flex align-items-center gap-3">
         <input class="search-bar" type="text" placeholder="Cari Sesuatu…" />
-        <a href="/daftar" class="btn-daftar text-center">Daftar</a>
+        <a href="{{ route('register') }}" class="btn-daftar text-center">Daftar</a>
       </div>
     </div>
   </nav>
@@ -850,8 +862,8 @@
           <h1 class="hero-title">Belajar <span class="highlight">Energi Bersih</span>,<br />Ciptakan Masa Depan<br />Yang Lebih Baik.</h1>
           <p class="hero-desc">Platform edukasi interaktif untuk memahami pentingnya energi bersih dan cara mewujudkan masa depan yang berkelanjutan.</p>
           <div class="d-flex flex-wrap gap-3">
-            <a href="/login" class="btn-hero-primary">Mulai Belajar</a>
-            <a href="/video" class="btn-hero-video"><span class="play-icon"><i class="bi bi-play-fill"></i></span>Tonton Video</a>
+            <a href="{{ route('login') }}" class="btn-hero-primary">Mulai Belajar</a>
+            <a href="{{ route('video') }}" class="btn-hero-video"><span class="play-icon"><i class="bi bi-play-fill"></i></span>Tonton Video</a>
           </div>
         </div>
         <div class="col-lg-6 earth-placeholder mt-4 mt-lg-0">
@@ -894,25 +906,25 @@
       <p class="section-subtitle">Pilih Topik Yang Ingin Kamu Pelajari</p>
       <div class="row g-3">
         <div class="col-12 col-sm-6 col-lg-3">
-          <a href="/artikel" class="kategori-card d-block">
+          <a href="{{ route('artikel') }}" class="kategori-card d-block">
             <div class="kat-thumb kat-orange"><i class="bi bi-sun-fill fs-4 d-block"></i><span style="font-size:8px">[Energi Surya]</span></div>
             <div class="kat-info"><div class="kat-title">Energi Yang Terbarukan</div><div class="kat-desc">Mengenal Sumber Energi Terbarukan</div></div>
           </a>
         </div>
         <div class="col-12 col-sm-6 col-lg-3">
-          <a href="/artikel" class="kategori-card d-block">
+          <a href="{{ route('artikel') }}" class="kategori-card d-block">
             <div class="kat-thumb"><i class="bi bi-lightning-charge-fill fs-4 d-block"></i><span style="font-size:8px">[Hemat Energi]</span></div>
             <div class="kat-info"><div class="kat-title">Hemat Energi</div><div class="kat-desc">Tips Menghemat Energi Listrik</div></div>
           </a>
         </div>
         <div class="col-12 col-sm-6 col-lg-3">
-          <a href="/artikel" class="kategori-card d-block">
+          <a href="{{ route('artikel') }}" class="kategori-card d-block">
             <div class="kat-thumb kat-blue"><i class="bi bi-cpu-fill fs-4 d-block"></i><span style="font-size:8px">[Inovasi]</span></div>
             <div class="kat-info"><div class="kat-title">Teknologi Bersih</div><div class="kat-desc">Inovasi Hijau Masa Depan</div></div>
           </a>
         </div>
         <div class="col-12 col-sm-6 col-lg-3">
-          <a href="/artikel" class="kategori-card d-block">
+          <a href="{{ route('artikel') }}" class="kategori-card d-block">
             <div class="kat-thumb kat-teal"><i class="bi bi-tree-fill fs-4 d-block"></i><span style="font-size:8px">[Lingkungan]</span></div>
             <div class="kat-info"><div class="kat-title">Lingkungan &amp; Energi</div><div class="kat-desc">Dampak Energi ke Alam</div></div>
           </a>
@@ -928,29 +940,29 @@
           <p class="section-label mb-1">Konten Terbaru</p>
           <h2 class="section-title mb-0">Artikel &amp; Video Terbaru</h2>
         </div>
-        <a href="/artikel" class="lihat-semua">Lihat semua →</a>
+        <a href="{{ route('artikel') }}" class="lihat-semua">Lihat semua →</a>
       </div>
       <div class="row g-3">
         <div class="col-12 col-sm-6 col-lg-3">
-          <a href="/detail-artikel" class="artikel-card text-decoration-none">
+          <a href="{{ route('artikel') }}" class="artikel-card text-decoration-none">
             <div class="artikel-thumb-wrap"><div class="thumb-placeholder thumb-green">[Thumbnail Artikel 1]</div><span class="badge-artikel">Artikel</span></div>
             <div class="artikel-body"><div class="artikel-title">Apa Itu Energi Surya?</div><div class="artikel-desc">Pelajari sistem panel surya mandiri.</div></div>
           </a>
         </div>
         <div class="col-12 col-sm-6 col-lg-3">
-          <a href="/video" class="artikel-card text-decoration-none">
+          <a href="{{ route('video') }}" class="artikel-card text-decoration-none">
             <div class="artikel-thumb-wrap"><div class="thumb-placeholder thumb-orange">[Thumbnail Video 2]</div><span class="badge-video">Video</span><div class="play-btn-overlay"><i class="bi bi-play-fill"></i></div></div>
             <div class="artikel-body"><div class="artikel-title">Mengenal Turbin Angin</div><div class="artikel-desc">Cara kerja kincir angin raksasa listrik.</div></div>
           </a>
         </div>
         <div class="col-12 col-sm-6 col-lg-3">
-          <a href="/detail-artikel" class="artikel-card text-decoration-none">
+          <a href="{{ route('artikel') }}" class="artikel-card text-decoration-none">
             <div class="artikel-thumb-wrap"><div class="thumb-placeholder thumb-blue">[Thumbnail Artikel 3]</div><span class="badge-artikel">Artikel</span></div>
             <div class="artikel-body"><div class="artikel-title">Energi Air Mikrohidro</div><div class="artikel-desc">Memanfaatkan aliran sungai desa.</div></div>
           </a>
         </div>
         <div class="col-12 col-sm-6 col-lg-3">
-          <a href="/detail-artikel" class="artikel-card text-decoration-none">
+          <a href="{{ route('artikel') }}" class="artikel-card text-decoration-none">
             <div class="artikel-thumb-wrap"><div class="thumb-placeholder thumb-dark">[Thumbnail Artikel 4]</div><span class="badge-artikel">Artikel</span></div>
             <div class="artikel-body"><div class="artikel-title">Tips Hemat Listrik</div><div class="artikel-desc">Langkah mudah memotong tagihan bulanan.</div></div>
           </a>
@@ -970,7 +982,7 @@
           </p>
           
           <div class="mb-4">
-            <a href="/daftar" class="btn-cta-main">Buat Akun Gratis</a>
+            <a href="{{ route('register') }}" class="btn-cta-main">Buat Akun Gratis</a>
             <div class="cta-join-note">
               <i class="bi bi-people-fill"></i> Bergabung dengan 10.000+ peserta energi bersih
             </div>

@@ -496,7 +496,7 @@
                         <span class="card-badge badge-solar">Energi Surya</span>
                     </div>
                     <div class="card-body-custom">
-                        <h5 class="card-title-custom">Apa Itu Energi Surya?</h5>
+                        <h5 class="card-title-custom"><a href="{{ route('artikel.detail', 'apa-itu-energi-surya') }}" class="text-decoration-none text-dark">Apa Itu Energi Surya?</a></h5>
                         <p class="card-excerpt">
                             Pelajari bagaimana energi matahari dapat menjadi solusi masa depan yang berkelanjutan dan terjangkau bagi jutaan rumah tangga.
                         </p>
@@ -518,7 +518,7 @@
                         <span class="card-badge badge-angin">Energi Angin</span>
                     </div>
                     <div class="card-body-custom">
-                        <h5 class="card-title-custom">Manfaat Energi Angin</h5>
+                        <h5 class="card-title-custom"><a href="{{ route('artikel.detail', 'manfaat-energi-angin') }}" class="text-decoration-none text-dark">Manfaat Energi Angin</a></h5>
                         <p class="card-excerpt">
                             Mengenal lebih jauh manfaat energi angin bagi kehidupan kita dan potensinya yang besar sebagai sumber energi terbarukan.
                         </p>
@@ -540,7 +540,7 @@
                         <span class="card-badge badge-biomassa">Biomassa</span>
                     </div>
                     <div class="card-body-custom">
-                        <h5 class="card-title-custom">Biomassa: Energi dari Alam</h5>
+                        <h5 class="card-title-custom"><a href="{{ route('artikel.detail', 'biomassa-energi-dari-alam') }}" class="text-decoration-none text-dark">Biomassa: Energi dari Alam</a></h5>
                         <p class="card-excerpt">
                             Memanfaatkan bahan organik sebagai sumber energi terbarukan yang ramah lingkungan dan mudah diakses masyarakat luas.
                         </p>
@@ -562,7 +562,7 @@
                         <span class="card-badge badge-geo">Geotermal</span>
                     </div>
                     <div class="card-body-custom">
-                        <h5 class="card-title-custom">Geotermal: Panas dari Bumi</h5>
+                        <h5 class="card-title-custom"><a href="{{ route('artikel.detail', 'geotermal-panas-dari-bumi') }}" class="text-decoration-none text-dark">Geotermal: Panas dari Bumi</a></h5>
                         <p class="card-excerpt">
                             Mengenal energi panas bumi dan potensinya di Indonesia sebagai alternatif bahan bakar fosil yang terus menipis.
                         </p>
@@ -584,7 +584,7 @@
                         <span class="card-badge badge-tips">Tips</span>
                     </div>
                     <div class="card-body-custom">
-                        <h5 class="card-title-custom">Hemat Listrik di Rumah</h5>
+                        <h5 class="card-title-custom"><a href="{{ route('artikel.detail', 'hemat-listrik-di-rumah') }}" class="text-decoration-none text-dark">Hemat Listrik di Rumah</a></h5>
                         <p class="card-excerpt">
                             Tips praktis menghemat listrik yang bisa dilakukan setiap hari untuk mengurangi tagihan dan jejak karbon rumah Anda.
                         </p>
@@ -606,7 +606,7 @@
                         <span class="card-badge badge-lingk">Lingkungan</span>
                     </div>
                     <div class="card-body-custom">
-                        <h5 class="card-title-custom">Dampak Energi Fosil</h5>
+                        <h5 class="card-title-custom"><a href="{{ route('artikel.detail', 'dampak-energi-fosil') }}" class="text-decoration-none text-dark">Dampak Energi Fosil</a></h5>
                         <p class="card-excerpt">
                             Memahami dampak penggunaan energi fosil bagi lingkungan dan urgensi transisi menuju energi bersih yang berkelanjutan.
                         </p>

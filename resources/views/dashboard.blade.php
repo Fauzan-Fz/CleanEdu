@@ -5,44 +5,40 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard – CleanEdu Energy</title>
 
-  <!-- Google Fonts: Poppins -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
-  <!-- Bootstrap 5 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
 
-  <!-- Bootstrap Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
 
-  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
 
   <style>
     /* ===========================
-       CSS VARIABLES
+        CSS VARIABLES
     =========================== */
     :root {
-      --green-main:       #2F7A3B;
-      --green-dark:       #1e5228;
-      --green-light:      #e6f4ea;
-      --sidebar-bg:       #1C2B20;
-      --sidebar-text:     #c8d8cc;
-      --sidebar-hover:    rgba(255,255,255,0.07);
-      --sidebar-active:   #F9C349;
+      --green-main:        #2F7A3B;
+      --green-dark:        #1e5228;
+      --green-light:       #e6f4ea;
+      --sidebar-bg:        #1C2B20;
+      --sidebar-text:      #c8d8cc;
+      --sidebar-hover:     rgba(255,255,255,0.07);
+      --sidebar-active:    #F9C349;
       --sidebar-active-t: #1a2e1e;
-      --sidebar-w:        200px;
-      --yellow:           #F9C349;
-      --yellow-hover:     #e0ae3f;
-      --bg-main:          #f0f4f1;
-      --topbar-bg:        #fff;
-      --card-bg:          #fff;
-      --text-dark:        #1a2e1e;
-      --text-muted:       #6b7a6e;
-      --border-col:       #e2eee6;
-      --radius-card:      14px;
-      --radius-pill:      50px;
+      --sidebar-w:         200px;
+      --yellow:            #F9C349;
+      --yellow-hover:      #e0ae3f;
+      --bg-main:           #f0f4f1;
+      --topbar-bg:         #fff;
+      --card-bg:           #fff;
+      --text-dark:         #1a2e1e;
+      --text-muted:        #6b7a6e;
+      --border-col:        #e2eee6;
+      --radius-card:       14px;
+      --radius-pill:       50px;
       /* Metric accent colours */
       --blue:    #3b82f6;
       --blue-bg: #eff6ff;
@@ -164,6 +160,7 @@
       font-size: 13px; font-weight: 500;
       color: rgba(255,255,255,.45);
       transition: background .18s, color .18s;
+      cursor: pointer;
     }
 
     .logout-link i { font-size: 16px; width: 20px; text-align: center; }
@@ -425,17 +422,10 @@
 </head>
 <body>
 
-<!-- Sidebar overlay (mobile) -->
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 
-<!-- ===================================================
-     APP WRAPPER
-=================================================== -->
 <div class="app-wrapper">
 
-  <!-- =============================================
-       SIDEBAR
-  ============================================= -->
   <aside class="sidebar" id="sidebar">
 
     <div class="sidebar-brand">
@@ -447,34 +437,37 @@
     </div>
 
     <nav class="sidebar-nav">
-      <a href="/dashboard" class="nav-item-link active">
+      <a href="{{ route('dashboard') }}" class="nav-item-link active">
         <i class="bi bi-house-door"></i> Dashboard
       </a>
-      <a href="/users" class="nav-item-link">
+      <a href="{{ route('users') }}" class="nav-item-link">
         <i class="bi bi-people"></i> Users
       </a>
-      <a href="/artikel" class="nav-item-link">
+      <a href="{{ route('artikel') }}" class="nav-item-link">
         <i class="bi bi-newspaper"></i> Article
       </a>
-      <a href="/video" class="nav-item-link">
+      <a href="{{ route('video') }}" class="nav-item-link">
         <i class="bi bi-play-circle"></i> Videos
       </a>
-      <a href="/quiz" class="nav-item-link">
+      <a href="{{ route('quiz') }}" class="nav-item-link">
         <i class="bi bi-patch-question"></i> Quizer
       </a>
-      <a href="/badges" class="nav-item-link">
+      <a href="{{ route('badges') }}" class="nav-item-link">
         <i class="bi bi-award"></i> Badges
       </a>
-      <a href="/reports" class="nav-item-link">
+      <a href="{{ route('reports') }}" class="nav-item-link">
         <i class="bi bi-bar-chart-line"></i> Reports
       </a>
-      <a href="/settings" class="nav-item-link">
+      <a href="{{ route('settings') }}" class="nav-item-link">
         <i class="bi bi-gear"></i> Settings
       </a>
     </nav>
 
     <div class="sidebar-footer">
-      <a href="/logout" class="logout-link">
+      <form id="logout-form" action="/logout" method="POST" style="display: none;">
+        @csrf
+      </form>
+      <a href="#" class="logout-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
         <i class="bi bi-box-arrow-right"></i> Logout
       </a>
     </div>
@@ -482,18 +475,14 @@
   </aside>
 
 
-  <!-- =============================================
-       MAIN AREA
-  ============================================= -->
   <div class="main-area">
 
-    <!-- TOPBAR -->
     <header class="topbar">
       <div class="d-flex align-items-center gap-3">
         <button class="hamburger" onclick="openSidebar()"><i class="bi bi-list"></i></button>
         <div class="topbar-left">
           <div class="page-title">Dashboard</div>
-          <div class="page-sub">Wellcome back, Admin! Here's what's happening on your platform</div>
+          <div class="page-sub">Welcome back, {{ auth()->user()->username ?? auth()->user()->name ?? 'Admin' }}! Here's what's happening on your platform</div>
         </div>
       </div>
       <div class="topbar-right">
@@ -503,26 +492,21 @@
         </div>
         <div class="admin-badge">
           <div class="admin-avatar"><i class="bi bi-person-fill"></i></div>
-          <span class="admin-name">Admin</span>
+          <span class="admin-name">{{ auth()->user()->username ?? auth()->user()->name ?? 'Admin' }}</span>
           <i class="bi bi-chevron-down admin-chevron"></i>
         </div>
       </div>
     </header>
 
 
-    <!-- PAGE CONTENT -->
     <div class="page-content">
 
-      <!-- ==========================================
-           METRIC CARDS (5 columns)
-      ========================================== -->
       <div class="metric-grid">
 
-        <!-- 1. Total Users (blue) -->
         <div class="metric-card mc-blue">
           <div class="metric-icon"><i class="bi bi-people-fill"></i></div>
           <div class="metric-label">Total Users</div>
-          <div class="metric-value">1,247</div>
+          <div class="metric-value">{{ $total_users ?? 0 }}</div>
           <div class="metric-trend trend-up">
             <i class="bi bi-arrow-up arrow"></i>
             <span>11.5% From Last Month</span>
@@ -537,11 +521,10 @@
           </div>
         </div>
 
-        <!-- 2. Total Article (amber) -->
         <div class="metric-card mc-amber">
           <div class="metric-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
           <div class="metric-label">Total Article</div>
-          <div class="metric-value">86</div>
+          <div class="metric-value">{{ $total_articles ?? 0 }}</div>
           <div class="metric-trend trend-up">
             <i class="bi bi-arrow-up arrow"></i>
             <span>10.8% From Last Month</span>
@@ -556,11 +539,10 @@
           </div>
         </div>
 
-        <!-- 3. Total Video (purple) -->
         <div class="metric-card mc-purple">
           <div class="metric-icon"><i class="bi bi-play-circle-fill"></i></div>
           <div class="metric-label">Total Video</div>
-          <div class="metric-value">24</div>
+          <div class="metric-value">{{ $total_videos ?? 0 }}</div>
           <div class="metric-trend trend-up">
             <i class="bi bi-arrow-up arrow"></i>
             <span>9.8% From Last Month</span>
@@ -575,11 +557,10 @@
           </div>
         </div>
 
-        <!-- 4. Total Quizez (teal) -->
         <div class="metric-card mc-teal">
           <div class="metric-icon"><i class="bi bi-patch-check-fill"></i></div>
           <div class="metric-label">Total Quizez</div>
-          <div class="metric-value">15</div>
+          <div class="metric-value">{{ $total_quizzes ?? 0 }}</div>
           <div class="metric-trend trend-up">
             <i class="bi bi-arrow-up arrow"></i>
             <span>12.7% From Last Month</span>
@@ -594,11 +575,10 @@
           </div>
         </div>
 
-        <!-- 5. Total Badges (orange) -->
         <div class="metric-card mc-orange">
           <div class="metric-icon"><i class="bi bi-award-fill"></i></div>
           <div class="metric-label">Total Badges</div>
-          <div class="metric-value">31</div>
+          <div class="metric-value">{{ $total_badges ?? 0 }}</div>
           <div class="metric-trend trend-up">
             <i class="bi bi-arrow-up arrow"></i>
             <span>4.5% From Last Month</span>
@@ -613,15 +593,8 @@
           </div>
         </div>
 
-      </div><!-- /metric-grid -->
+      </div><div class="bottom-grid">
 
-
-      <!-- ==========================================
-           BOTTOM GRID: Chart + Recent Users
-      ========================================== -->
-      <div class="bottom-grid">
-
-        <!-- Chart Card -->
         <div class="chart-card">
           <div class="chart-title">
             User Activity <span>(Last 7 Days)</span>
@@ -631,68 +604,34 @@
           </div>
         </div>
 
-        <!-- Recent Users Card -->
         <div class="recent-card">
           <div class="recent-header">
             <div class="recent-title">Recent User</div>
             <a href="/users" class="view-all">View All</a>
           </div>
 
-          <!-- User rows -->
-          <div class="user-row">
-            <div class="u-avatar"><i class="bi bi-person-fill"></i></div>
-            <div class="u-info">
-              <div class="u-name">Siti Nurhaya</div>
-              <div class="u-email">siti@gmail.com</div>
+          @php
+            $bgCycle = ['linear-gradient(135deg,#ffd180,#ffa726)', 'linear-gradient(135deg,#a7f3d0,#34d399)', 'linear-gradient(135deg,#c4b5fd,#8b5cf6)', 'linear-gradient(135deg,#fbcfe8,#ec4899)'];
+            $colorCycle = ['#7a4000', '#065f46', '#fff', '#fff'];
+          @endphp
+
+          @forelse($recent_users ?? [] as $dynamic_user)
+            @php $idx = $loop->index % 4; @endphp
+            <div class="user-row">
+              <div class="u-avatar" style="background: {{ $bgCycle[$idx] }}; color: {{ $colorCycle[$idx] }};">
+                <i class="bi bi-person-fill"></i>
+              </div>
+              <div class="u-info">
+                <div class="u-name">{{ $dynamic_user->username ?? $dynamic_user->name }}</div>
+                <div class="u-email">{{ $dynamic_user->email }}</div>
+              </div>
+              <div class="u-date">{{ $dynamic_user->created_at ? $dynamic_user->created_at->format('M d, Y') : '' }}</div>
             </div>
-            <div class="u-date">May 26, 2025</div>
-          </div>
+          @empty
+            <div class="text-center text-muted py-4" style="font-size: 13px;">Belum ada user baru baru-baru ini.</div>
+          @endforelse
 
-          <div class="user-row">
-            <div class="u-avatar" style="background:linear-gradient(135deg,#a7f3d0,#34d399); color:#065f46;">
-              <i class="bi bi-person-fill"></i>
-            </div>
-            <div class="u-info">
-              <div class="u-name">Siti Nurhaya</div>
-              <div class="u-email">siti@gmail.com</div>
-            </div>
-            <div class="u-date">May 26, 2025</div>
-          </div>
-
-          <div class="user-row">
-            <div class="u-avatar" style="background:linear-gradient(135deg,#c4b5fd,#8b5cf6); color:#fff;">
-              <i class="bi bi-person-fill"></i>
-            </div>
-            <div class="u-info">
-              <div class="u-name">Siti Nurhaya</div>
-              <div class="u-email">siti@gmail.com</div>
-            </div>
-            <div class="u-date">May 26, 2025</div>
-          </div>
-
-          <div class="user-row">
-            <div class="u-avatar" style="background:linear-gradient(135deg,#fbcfe8,#ec4899); color:#fff;">
-              <i class="bi bi-person-fill"></i>
-            </div>
-            <div class="u-info">
-              <div class="u-name">Siti Nurhaya</div>
-              <div class="u-email">siti@gmail.com</div>
-            </div>
-            <div class="u-date">May 26, 2025</div>
-          </div>
-
-        </div><!-- /recent-card -->
-
-      </div><!-- /bottom-grid -->
-
-    </div><!-- /page-content -->
-  </div><!-- /main-area -->
-
-</div><!-- /app-wrapper -->
-
-
-<!-- Bootstrap 5 JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        </div></div></div></div></div><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
   /* =============================================
@@ -714,7 +653,6 @@
   (function () {
     const ctx = document.getElementById('activityChart').getContext('2d');
 
-    // Green gradient fill
     const gradient = ctx.createLinearGradient(0, 0, 0, 260);
     gradient.addColorStop(0,   'rgba(47, 122, 59, 0.30)');
     gradient.addColorStop(0.6, 'rgba(47, 122, 59, 0.08)');

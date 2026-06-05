@@ -18,7 +18,7 @@
 
     <style>
         /* ==============================
-           CSS VARIABLES & BASE
+            CSS VARIABLES & BASE (SAMA PERSIS)
         ============================== */
         :root {
             --primary:       #2F9054;
@@ -43,9 +43,6 @@
             min-height: 100vh;
         }
 
-        /* ==============================
-           BACK LINK
-        ============================== */
         .back-link {
             display: inline-flex;
             align-items: center;
@@ -65,9 +62,6 @@
 
         .back-link i { font-size: 1rem; }
 
-        /* ==============================
-           QUIZ WRAPPER
-        ============================== */
         .quiz-outer {
             min-height: calc(100vh - 60px);
             display: flex;
@@ -76,7 +70,6 @@
             padding: 0 1rem 3rem;
         }
 
-        /* Quiz title */
         .quiz-title {
             font-size: 1.55rem;
             font-weight: 700;
@@ -85,9 +78,6 @@
             margin-bottom: 1.5rem;
         }
 
-        /* ==============================
-           PROGRESS + TIMER ROW
-        ============================== */
         .quiz-meta-row {
             display: flex;
             align-items: center;
@@ -114,7 +104,6 @@
 
         .timer-badge i { font-size: 0.9rem; color: var(--text-muted); }
 
-        /* Progress bar wrapper */
         .progress-wrap {
             width: 100%;
             max-width: 500px;
@@ -130,15 +119,12 @@
 
         .quiz-progress-bar {
             height: 100%;
-            width: 30%; /* 3 dari 10 */
+            width: 10%;
             background-color: var(--primary);
             border-radius: 50px;
             transition: width 0.5s ease;
         }
 
-        /* ==============================
-           QUIZ CARD
-        ============================== */
         .quiz-card {
             background: var(--bg-card);
             border-radius: 18px;
@@ -149,7 +135,6 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.05);
         }
 
-        /* Question text */
         .question-text {
             font-size: 1rem;
             font-weight: 600;
@@ -158,9 +143,6 @@
             margin-bottom: 1.5rem;
         }
 
-        /* ==============================
-           ANSWER OPTIONS
-        ============================== */
         .options-list {
             display: flex;
             flex-direction: column;
@@ -172,7 +154,6 @@
             position: relative;
         }
 
-        /* Hide native radio */
         .option-item input[type="radio"] {
             position: absolute;
             opacity: 0;
@@ -201,7 +182,6 @@
             background-color: var(--primary-light);
         }
 
-        /* Custom radio circle */
         .radio-circle {
             width: 20px;
             height: 20px;
@@ -222,7 +202,6 @@
             transition: background-color 0.18s;
         }
 
-        /* Checked state — driven by JS class */
         .option-item.selected .option-label {
             border-color: var(--primary);
             background-color: var(--primary-light);
@@ -239,18 +218,12 @@
             background-color: #fff;
         }
 
-        /* ==============================
-           DIVIDER
-        ============================== */
         .quiz-divider {
             border: none;
             border-top: 1px solid #f0f0f0;
             margin: 1.6rem 0 1.4rem;
         }
 
-        /* ==============================
-           NAV BUTTONS
-        ============================== */
         .quiz-nav {
             display: flex;
             justify-content: space-between;
@@ -270,9 +243,14 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        .btn-prev:hover {
+        .btn-prev:hover:not(:disabled) {
             border-color: var(--primary);
             color: var(--primary);
+        }
+
+        .btn-prev:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         .btn-next {
@@ -294,9 +272,13 @@
             transform: translateY(-1px);
         }
 
-        /* ==============================
-           RESPONSIVE
-        ============================== */
+        .quiz-slide {
+            display: none;
+        }
+        .quiz-slide.active {
+            display: block;
+        }
+
         @media (max-width: 575.98px) {
             .quiz-card      { padding: 1.4rem 1.1rem 1.4rem; }
             .quiz-title     { font-size: 1.2rem; }
@@ -308,89 +290,380 @@
 
 <div class="container">
 
-    {{-- Back link --}}
     <a href="#" class="back-link">
         <i class="bi bi-arrow-left"></i>
         Kembali
     </a>
 
-    {{-- =================== QUIZ LAYOUT =================== --}}
     <div class="quiz-outer">
 
-        {{-- Quiz Title --}}
         <h1 class="quiz-title">Kuis: Energi Terbarukan</h1>
 
-        {{-- Progress meta row --}}
         <div class="quiz-meta-row">
-            <span class="question-counter">Pertanyaan 3 dari 10</span>
+            <span class="question-counter" id="question-counter">Pertanyaan 1 dari 10</span>
             <div class="timer-badge">
                 <i class="bi bi-clock"></i>
                 <span id="timer-display">04:32</span>
             </div>
         </div>
 
-        {{-- Progress bar --}}
         <div class="progress-wrap">
             <div class="quiz-progress">
-                <div class="quiz-progress-bar" id="progress-bar" style="width: 30%;"></div>
+                <div class="quiz-progress-bar" id="progress-bar"></div>
             </div>
         </div>
 
-        {{-- Quiz Card --}}
         <div class="quiz-card">
 
-            {{-- Question --}}
-            <p class="question-text">
-                Energi yang berasal dari sinar matahari disebut?
-            </p>
-
-            {{-- Answer Options --}}
-            <div class="options-list" id="options-list">
-
-                {{-- Option A --}}
-                <div class="option-item" data-value="A">
-                    <input type="radio" name="answer" id="opt-a" value="A">
-                    <label class="option-label" for="opt-a">
-                        <span class="radio-circle"><span class="radio-dot"></span></span>
-                        A. Energi Angin
-                    </label>
+            <div id="quiz-questions-container">
+                
+                <div class="quiz-slide active">
+                    <p class="question-text">1. Energi yang berasal dari sinar matahari disebut?</p>
+                    <div class="options-list">
+                        <div class="option-item">
+                            <input type="radio" name="answer_1" id="opt-1-a" value="A">
+                            <label class="option-label" for="opt-1-a">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                A. Energi Angin
+                            </label>
+                        </div>
+                        <div class="option-item">
+                            <input type="radio" name="answer_1" id="opt-1-b" value="B">
+                            <label class="option-label" for="opt-1-b">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                B. Energi Surya
+                            </label>
+                        </div>
+                        <div class="option-item">
+                            <input type="radio" name="answer_1" id="opt-1-c" value="C">
+                            <label class="option-label" for="opt-1-c">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                C. Energi Fosil
+                            </label>
+                        </div>
+                        <div class="option-item">
+                            <input type="radio" name="answer_1" id="opt-1-d" value="D">
+                            <label class="option-label" for="opt-1-d">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                D. Energi Biomassa
+                            </label>
+                        </div>
+                    </div>
                 </div>
 
-                {{-- Option B (pre-selected) --}}
-                <div class="option-item selected" data-value="B">
-                    <input type="radio" name="answer" id="opt-b" value="B" checked>
-                    <label class="option-label" for="opt-b">
-                        <span class="radio-circle"><span class="radio-dot"></span></span>
-                        B. Energi Surya
-                    </label>
+                <div class="quiz-slide">
+                    <p class="question-text">2. Apa alat yang digunakan untuk mengubah energi angin menjadi listrik?</p>
+                    <div class="options-list">
+                        <div class="option-item">
+                            <input type="radio" name="answer_2" id="opt-2-a" value="A">
+                            <label class="option-label" for="opt-2-a">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                A. Panel Surya
+                            </label>
+                        </div>
+                        <div class="option-item">
+                            <input type="radio" name="answer_2" id="opt-2-b" value="B">
+                            <label class="option-label" for="opt-2-b">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                B. Turbin Angin / Kincir Angin
+                            </label>
+                        </div>
+                        <div class="option-item">
+                            <input type="radio" name="answer_2" id="opt-2-c" value="C">
+                            <label class="option-label" for="opt-2-c">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                C. Generator Diesel
+                            </label>
+                        </div>
+                        <div class="option-item">
+                            <input type="radio" name="answer_2" id="opt-2-d" value="D">
+                            <label class="option-label" for="opt-2-d">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                D. Reaktor Nuklir
+                            </label>
+                        </div>
+                    </div>
                 </div>
 
-                {{-- Option C --}}
-                <div class="option-item" data-value="C">
-                    <input type="radio" name="answer" id="opt-c" value="C">
-                    <label class="option-label" for="opt-c">
-                        <span class="radio-circle"><span class="radio-dot"></span></span>
-                        C. Energi Fosil
-                    </label>
+                <div class="quiz-slide">
+                    <p class="question-text">3. Manakah di bawah ini yang tergolong sebagai sumber energi TIDAK terbarukan?</p>
+                    <div class="options-list">
+                        <div class="option-item">
+                            <input type="radio" name="answer_3" id="opt-3-a" value="A">
+                            <label class="option-label" for="opt-3-a">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                A. Batu bara
+                            </label>
+                        </div>
+                        <div class="option-item">
+                            <input type="radio" name="answer_3" id="opt-3-b" value="B">
+                            <label class="option-label" for="opt-3-b">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                B. Panas bumi
+                            </label>
+                        </div>
+                        <div class="option-item">
+                            <input type="radio" name="answer_3" id="opt-3-c" value="C">
+                            <label class="option-label" for="opt-3-c">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                C. Air mengalir
+                            </label>
+                        </div>
+                        <div class="option-item">
+                            <input type="radio" name="answer_3" id="opt-3-d" value="D">
+                            <label class="option-label" for="opt-3-d">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                D. Biomassa
+                            </label>
+                        </div>
+                    </div>
                 </div>
 
-                {{-- Option D --}}
-                <div class="option-item" data-value="D">
-                    <input type="radio" name="answer" id="opt-d" value="D">
-                    <label class="option-label" for="opt-d">
-                        <span class="radio-circle"><span class="radio-dot"></span></span>
-                        D. Energi Biomassa
-                    </label>
+                <div class="quiz-slide">
+                    <p class="question-text">4. Pembangkit listrik yang memanfaatkan aliran air sungai sering disebut dengan?</p>
+                    <div class="options-list">
+                        <div class="option-item">
+                            <input type="radio" name="answer_4" id="opt-4-a" value="A">
+                            <label class="option-label" for="opt-4-a">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                A. PLTU
+                            </label>
+                        </div>
+                        <div class="option-item">
+                            <input type="radio" name="answer_4" id="opt-4-b" value="B">
+                            <label class="option-label" for="opt-4-b">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                B. PLTG
+                            </label>
+                        </div>
+                        <div class="option-item">
+                            <input type="radio" name="answer_4" id="opt-4-c" value="C">
+                            <label class="option-label" for="opt-4-c">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                C. PLTA
+                            </label>
+                        </div>
+                        <div class="option-item">
+                            <input type="radio" name="answer_4" id="opt-4-d" value="D">
+                            <label class="option-label" for="opt-4-d">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                D. PLTN
+                            </label>
+                        </div>
+                    </div>
                 </div>
 
-            </div>{{-- /options-list --}}
+                <div class="quiz-slide">
+                    <p class="question-text">5. Apa nama bahan bakar ramah lingkungan yang diproduksi dari limbah organik / tanaman?</p>
+                    <div class="options-list">
+                        <div class="option-item">
+                            <input type="radio" name="answer_5" id="opt-5-a" value="A">
+                            <label class="option-label" for="opt-5-a">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                A. Avtur
+                            </label>
+                        </div>
+                        <div class="option-item">
+                            <input type="radio" name="answer_5" id="opt-5-b" value="B">
+                            <label class="option-label" for="opt-5-b">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                B. Biofuel / Biodiesel
+                            </label>
+                        </div>
+                        <div class="option-item">
+                            <input type="radio" name="answer_5" id="opt-5-c" value="C">
+                            <label class="option-label" for="opt-5-c">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                C. Premium
+                            </label>
+                        </div>
+                        <div class="option-item">
+                            <input type="radio" name="answer_5" id="opt-5-d" value="D">
+                            <label class="option-label" for="opt-5-d">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                D. Oli sintetis
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quiz-slide">
+                    <p class="question-text">6. Energi panas bumi juga dikenal dengan istilah energi apa?</p>
+                    <div class="options-list">
+                        <div class="option-item">
+                            <input type="radio" name="answer_6" id="opt-6-a" value="A">
+                            <label class="option-label" for="opt-6-a">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                A. Hidrotermal
+                            </label>
+                        </div>
+                        <div class="option-item">
+                            <input type="radio" name="answer_6" id="opt-6-b" value="B">
+                            <label class="option-label" for="opt-6-b">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                B. Geotermal
+                            </label>
+                        </div>
+                        <div class="option-item">
+                            <input type="radio" name="answer_6" id="opt-6-c" value="C">
+                            <label class="option-label" for="opt-6-c">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                C. Kinetik
+                            </label>
+                        </div>
+                        <div class="option-item">
+                            <input type="radio" name="answer_6" id="opt-6-d" value="D">
+                            <label class="option-label" for="opt-6-d">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                D. Solar termal
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quiz-slide">
+                    <p class="question-text">7. Apa keuntungan utama menggunakan energi terbarukan dibandingkan energi fosil?</p>
+                    <div class="options-list">
+                        <div class="option-item">
+                            <input type="radio" name="answer_7" id="opt-7-a" value="A">
+                            <label class="option-label" for="opt-7-a">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                A. Menghasilkan emisi gas rumah kaca yang tinggi
+                            </label>
+                        </div>
+                        <div class="option-item">
+                            <input type="radio" name="answer_7" id="opt-7-b" value="B">
+                            <label class="option-label" for="opt-7-b">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                B. Lebih murah biaya pembuatan pertamanya
+                            </label>
+                        </div>
+                        <div class="option-item">
+                            <input type="radio" name="answer_7" id="opt-7-c" value="C">
+                            <label class="option-label" for="opt-7-c">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                C. Ramah lingkungan dan tidak akan habis
+                            </label>
+                        </div>
+                        <div class="option-item">
+                            <input type="radio" name="answer_7" id="opt-7-d" value="D">
+                            <label class="option-label" for="opt-7-d">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                D. Sangat bergantung pada cuaca ekstrem
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quiz-slide">
+                    <p class="question-text">8. Alat penangkap energi matahari yang biasanya dipasang di atap rumah dinamakan?</p>
+                    <div class="options-list">
+                        <div class="option-item">
+                            <input type="radio" name="answer_8" id="opt-8-a" value="A">
+                            <label class="option-label" for="opt-8-a">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                A. Turbin Angin
+                            </label>
+                        </div>
+                        <div class="option-item">
+                            <input type="radio" name="answer_8" id="opt-8-b" value="B">
+                            <label class="option-label" for="opt-8-b">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                B. Panel Surya (Solar Panel)
+                            </label>
+                        </div>
+                        <div class="option-item">
+                            <input type="radio" name="answer_8" id="opt-8-c" value="C">
+                            <label class="option-label" for="opt-8-c">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                C. Generator Listrik
+                            </label>
+                        </div>
+                        <div class="option-item">
+                            <input type="radio" name="answer_8" id="opt-8-d" value="D">
+                            <label class="option-label" for="opt-8-d">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                D. Kapasitor
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quiz-slide">
+                    <p class="question-text">9. Apa nama gas ramah lingkungan yang dihasilkan dari dekomposisi kotoran ternak?</p>
+                    <div class="options-list">
+                        <div class="option-item">
+                            <input type="radio" name="answer_9" id="opt-9-a" value="A">
+                            <label class="option-label" for="opt-9-a">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                A. Biogas
+                            </label>
+                        </div>
+                        <div class="option-item">
+                            <input type="radio" name="answer_9" id="opt-9-b" value="B">
+                            <label class="option-label" for="opt-9-b">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                B. Elpiji
+                            </label>
+                        </div>
+                        <div class="option-item">
+                            <input type="radio" name="answer_9" id="opt-9-c" value="C">
+                            <label class="option-label" for="opt-9-c">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                C. Oksigen
+                            </label>
+                        </div>
+                        <div class="option-item">
+                            <input type="radio" name="answer_9" id="opt-9-d" value="D">
+                            <label class="option-label" for="opt-9-d">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                D. Karbon Monoksida
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quiz-slide">
+                    <p class="question-text">10. Pembangkit listrik yang memanfaatkan energi pasang surut air laut disebut?</p>
+                    <div class="options-list">
+                        <div class="option-item">
+                            <input type="radio" name="answer_10" id="opt-10-a" value="A">
+                            <label class="option-label" for="opt-10-a">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                A. Energi Gelombang
+                            </label>
+                        </div>
+                        <div class="option-item">
+                            <input type="radio" name="answer_10" id="opt-10-b" value="B">
+                            <label class="option-label" for="opt-10-b">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                B. Energi Tidal
+                            </label>
+                        </div>
+                        <div class="option-item">
+                            <input type="radio" name="answer_10" id="opt-10-c" value="C">
+                            <label class="option-label" for="opt-10-c">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                C. Energi Termal Laut
+                            </label>
+                        </div>
+                        <div class="option-item">
+                            <input type="radio" name="answer_10" id="opt-10-d" value="D">
+                            <label class="option-label" for="opt-10-d">
+                                <span class="radio-circle"><span class="radio-dot"></span></span>
+                                D. Energi Angin Lepas Pantai
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>{{-- /quiz-questions-container --}}
 
             <hr class="quiz-divider">
 
-            {{-- Navigation Buttons --}}
             <div class="quiz-nav">
-                <button class="btn-prev" type="button">Sebelumnya</button>
-                <button class="btn-next" type="button">Selanjutnya</button>
+                <button class="btn-prev" type="button" id="btn-prev">Sebelumnya</button>
+                <button class="btn-next" type="button" id="btn-next">Selanjutnya</button>
             </div>
 
         </div>{{-- /quiz-card --}}
@@ -399,33 +672,82 @@
 
 </div>{{-- /container --}}
 
-
-{{-- Bootstrap 5 JS Bundle --}}
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    /* ==============================
-       OPTION SELECTION
-    ============================== */
-    document.querySelectorAll('.option-item').forEach(function (item) {
-        item.addEventListener('click', function () {
-            // Remove selected from all
-            document.querySelectorAll('.option-item').forEach(function (el) {
+    let currentSlideIndex = 0;
+    const slides = document.querySelectorAll('.quiz-slide');
+    const totalSlides = slides.length; // Otomatis bernilai 10 karena slide sudah lengkap
+    
+    const counterDisplay = document.getElementById('question-counter');
+    const progressBar = document.getElementById('progress-bar');
+    const btnPrev = document.getElementById('btn-prev');
+    const btnNext = document.getElementById('btn-next');
+
+    function renderQuiz() {
+        slides.forEach((slide, idx) => {
+            if(idx === currentSlideIndex) {
+                slide.classList.add('active');
+            } else {
+                slide.classList.remove('active');
+            }
+        });
+
+        // Update teks counter & progress bar secara dinamis
+        counterDisplay.textContent = `Pertanyaan ${currentSlideIndex + 1} dari ${totalSlides}`;
+        progressBar.style.width = ((currentSlideIndex + 1) / totalSlides) * 100 + "%";
+
+        // Atur tombol state disabilitas
+        btnPrev.disabled = (currentSlideIndex === 0);
+        
+        if (currentSlideIndex === totalSlides - 1) {
+            btnNext.textContent = "Selesai";
+        } else {
+            btnNext.textContent = "Selanjutnya";
+        }
+    }
+
+    // Navigasi Tombol
+    btnNext.addEventListener('click', function() {
+        if (currentSlideIndex < totalSlides - 1) {
+            currentSlideIndex++;
+            renderQuiz();
+        } else {
+            alert("Kuis Selesai! Terima kasih.");
+        }
+    });
+
+    btnPrev.addEventListener('click', function() {
+        if (currentSlideIndex > 0) {
+            currentSlideIndex--;
+            renderQuiz();
+        }
+    });
+
+    // Handle klik jawaban tanpa dobel klik / melompat
+    document.querySelectorAll('.option-label').forEach(function (label) {
+        label.addEventListener('click', function (e) {
+            const currentItem = this.closest('.option-item');
+            const parentList = this.closest('.options-list');
+
+            parentList.querySelectorAll('.option-item').forEach(function (el) {
                 el.classList.remove('selected');
                 el.querySelector('input[type="radio"]').checked = false;
             });
 
-            // Select clicked
-            this.classList.add('selected');
-            this.querySelector('input[type="radio"]').checked = true;
+            currentItem.classList.add('selected');
+            currentItem.querySelector('input[type="radio"]').checked = true;
         });
     });
 
+    // Jalankan render pertama kali saat page diload
+    renderQuiz();
+
     /* ==============================
-       COUNTDOWN TIMER
+       COUNTDOWN TIMER (TETAP SAMA)
     ============================== */
     (function () {
-        var totalSeconds = 4 * 60 + 32; // 04:32
+        var totalSeconds = 4 * 60 + 32; 
         var display = document.getElementById('timer-display');
 
         var interval = setInterval(function () {
@@ -444,7 +766,6 @@
                 String(minutes).padStart(2, '0') + ':' +
                 String(seconds).padStart(2, '0');
 
-            // Turn red in last 60 seconds
             if (totalSeconds <= 60) {
                 display.style.color = '#dc3545';
             }

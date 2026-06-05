@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Masuk')
+@section('title', 'Register')
 
 @section('content')
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -16,28 +16,23 @@
 .delay-1 { animation-delay: 0.1s; }
 .delay-2 { animation-delay: 0.18s; }
 .delay-3 { animation-delay: 0.26s; }
-.login-page {
+.register-page {
     min-height: 100vh;
     background-color: #f3f4f6;
 }
-.login-card {
+.auth-card {
     border-radius: 24px;
     box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
     border: none;
     background: #ffffff;
     padding: 40px;
 }
-.login-card h2,
-.login-card p.lead,
-.login-card .brand-title {
-    opacity: 0;
-}
-.login-card input.form-control {
+.auth-card input.form-control {
     border-radius: 12px;
     border: 1px solid #d7dde2;
     padding: 14px 16px;
 }
-.login-card button[type="submit"] {
+.auth-card button[type="submit"] {
     border-radius: 12px;
     background-color: #ecc152;
     border: 1px solid #ecc152;
@@ -47,7 +42,7 @@
     width: 100%;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.login-card button[type="submit"]:hover {
+.auth-card button[type="submit"]:hover {
     transform: translateY(-1px);
     box-shadow: 0 12px 22px rgba(0, 0, 0, 0.12);
 }
@@ -98,18 +93,18 @@
 }
 </style>
 
-<div class="d-flex login-page">
+<div class="d-flex register-page">
     <div class="container-fluid">
         <div class="row gx-0 align-items-center min-vh-100">
             <div class="col-12 col-lg-5 d-flex align-items-center justify-content-center px-4 px-md-5 py-5">
-                <div class="login-card animate-fade-up delay-1" style="width:100%; max-width: 460px;">
+                <div class="auth-card animate-fade-up delay-1" style="width:100%; max-width: 460px;">
                     <div class="mb-4">
                         <div class="d-flex align-items-center gap-2 mb-3 animate-fade-up delay-2">
                             <span class="fs-4">🌱</span>
-                            <span class="brand-title fs-5 fw-bold text-dark">CleanEdu Energy</span>
+                            <span class="fs-5 fw-bold text-dark">CleanEdu Energy</span>
                         </div>
-                        <h2 class="fw-bold text-dark animate-fade-up delay-3">Selamat Kembali! 👋</h2>
-                        <p class="lead text-muted mb-0 animate-fade-up delay-3">Masuk Untuk Melanjutkan Perjalanan Belajarmu</p>
+                        <h2 class="fw-bold text-dark animate-fade-up delay-3">Mulai Belajar! ✨</h2>
+                        <p class="lead text-muted mb-0 animate-fade-up delay-3">Daftar Untuk Memulai Perjalanan Belajarmu</p>
                     </div>
 
                     @if(session('success'))
@@ -128,8 +123,12 @@
                         </div>
                     @endif
 
-                    <form method="POST" action="{{ route('login.submit') }}">
+                    <form method="POST" action="{{ route('register.submit') }}">
                         @csrf
+                        <div class="mb-3">
+                            <label for="name" class="form-label small text-uppercase letter-spacing-1">Nama Lengkap</label>
+                            <input type="text" id="name" name="name" class="form-control" placeholder="Nama lengkap" value="{{ old('name') }}" required>
+                        </div>
                         <div class="mb-3">
                             <label for="email" class="form-label small text-uppercase letter-spacing-1">Email</label>
                             <input type="email" id="email" name="email" class="form-control" placeholder="name@example.com" value="{{ old('email') }}" required>
@@ -138,23 +137,15 @@
                             <label for="password" class="form-label small text-uppercase letter-spacing-1">Kata Sandi</label>
                             <div class="input-group">
                                 <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" required style="border-top-left-radius: 12px; border-bottom-left-radius: 12px; border-right: none;">
-                                <span class="input-group-text" id="togglePassword" style="cursor: pointer; background: #ffffff; border-left: none; border-top-right-radius: 12px; border-bottom-right-radius: 12px; color: #6c757d;"><i class="bi bi-eye" id="eyeIcon"></i></span>
+                                <span class="input-group-text" id="toggleRegisterPassword" style="cursor: pointer; background: #ffffff; border-left: none; border-top-right-radius: 12px; border-bottom-right-radius: 12px; color: #6c757d;"><i class="bi bi-eye" id="eyeIconReg"></i></span>
                             </div>
                         </div>
 
-                        <div class="d-flex align-items-center justify-content-between mb-4">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="remember" name="remember" value="1">
-                                <label class="form-check-label small" for="remember">Ingat saya</label>
-                            </div>
-                            <a href="#" class="small text-decoration-none" style="color:#2f7f2f;">Lupa kata sandi?</a>
-                        </div>
-
-                        <button type="submit" class="animate-fade-up delay-3">Masuk</button>
+                        <button type="submit" class="animate-fade-up delay-3">Daftar</button>
                     </form>
 
                     <div class="text-center mt-4 small text-muted">
-                        <p class="mb-0">Belum punya akun? <a href="{{ route('register') }}" class="fw-semibold" style="color:#2f7f2f; text-decoration:none;">Daftar disini</a></p>
+                        <p class="mb-0">Sudah punya akun? <a href="{{ route('login') }}" class="fw-semibold" style="color:#2f7f2f; text-decoration:none;">Masuk disini</a></p>
                     </div>
                 </div>
             </div>
@@ -175,21 +166,21 @@
     </div>
 </div>
 <script>
-    const togglePassword = document.querySelector('#togglePassword');
-    const password = document.querySelector('#password');
-    const eyeIcon = document.querySelector('#eyeIcon');
+    const toggleRegisterPassword = document.querySelector('#toggleRegisterPassword');
+    const passwordReg = document.querySelector('#password');
+    const eyeIconReg = document.querySelector('#eyeIconReg');
 
-    if (togglePassword && password && eyeIcon) {
-        togglePassword.addEventListener('click', function () {
-            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-            password.setAttribute('type', type);
+    if (toggleRegisterPassword && passwordReg && eyeIconReg) {
+        toggleRegisterPassword.addEventListener('click', function () {
+            const type = passwordReg.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordReg.setAttribute('type', type);
             
             if (type === 'text') {
-                eyeIcon.classList.remove('bi-eye');
-                eyeIcon.classList.add('bi-eye-slash');
+                eyeIconReg.classList.remove('bi-eye');
+                eyeIconReg.classList.add('bi-eye-slash');
             } else {
-                eyeIcon.classList.remove('bi-eye-slash');
-                eyeIcon.classList.add('bi-eye');
+                eyeIconReg.classList.remove('bi-eye-slash');
+                eyeIconReg.classList.add('bi-eye');
             }
         });
     }
